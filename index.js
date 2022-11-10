@@ -102,6 +102,14 @@ async function server() {
             // console.log(service)
         })
 
+        app.get('/editReviews/id', async (req, res) => {
+            const id = req.params.id
+            const query = { _id: ObjectId(id) }
+            const cursor = await reviewCollection.findOne(query)
+                        res.send(cursor)
+            console.log(cursor)
+        })
+
 
 
     } finally { }
