@@ -109,7 +109,13 @@ async function server() {
             res.send(cursor)
         })
 
-        
+        app.put('/editReview/:id', async (req, res)=> {
+            const id = req.params.id;
+            const text = req.body.text
+            console.log(text, id);
+        })
+
+
  
 
     } finally { }
