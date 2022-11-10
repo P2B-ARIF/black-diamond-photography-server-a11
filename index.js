@@ -109,14 +109,21 @@ async function server() {
             res.send(cursor)
         })
 
-        app.put('/editReview/:id', async (req, res)=> {
-            const id = req.params.id;
-            const text = req.body.text
-            console.log(text, id);
+
+        app.put('/editReview/:id', async (req, res) => {
+            const id = req.params.id
+            const query = { _id: ObjectId(id) }
+            const updateTextArea = req.body;
+            const options = {upsert: true}
+            const updateDoc = { $set: {textarea:  updateTextArea } }
+            const result = await reviewCollection.updateOne(query, updateDoc, options)
+            res.send(result)
+            console.log(result);
         })
 
 
- 
+
+
 
     } finally { }
 }
