@@ -26,8 +26,8 @@ const verifyJWT = (req, res, next) => {
         if (err) {
             return res.status(401).send({ message: "unauthorized access" })
         }
-       req.decoded = decoded;
-       next()
+        req.decoded = decoded;
+        next()
     })
 }
 
@@ -102,15 +102,15 @@ async function server() {
             // console.log(service)
         })
 
-        app.get('/editReviews/id', async (req, res) => {
+        app.get('/editReviews/:id', async (req, res) => {
             const id = req.params.id
             const query = { _id: ObjectId(id) }
             const cursor = await reviewCollection.findOne(query)
-                        res.send(cursor)
-            console.log(cursor)
+            res.send(cursor)
         })
 
-
+        
+ 
 
     } finally { }
 }
