@@ -115,10 +115,18 @@ async function server() {
             const query = { _id: ObjectId(id) }
             const updateTextArea = req.body;
             const options = {upsert: true}
-            const updateDoc = { $set: {textarea:  updateTextArea } }
+            const updateDoc = { $set: {textarea:  updateTextArea.text } }
             const result = await reviewCollection.updateOne(query, updateDoc, options)
             res.send(result)
-            console.log(result);
+        })
+
+        app.delete('/deleteReview/:id', async (req, res)=>{
+            const id = req.params.id;
+            console.log(id);
+            const query = { _id: ObjectId(id) }
+            const result = await reviewCollection.deleteOne(query)
+            res.send(result)
+            console.log(result)
         })
 
 
