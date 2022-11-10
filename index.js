@@ -46,7 +46,7 @@ async function server() {
         app.get('/homeServices', async (req, res) => {
             const query = {}
             const cursor = servicesCollection.find(query)
-            const results = await cursor.limit(3).toArray()
+            const results = await cursor.sort({date: -1}).limit(3).toArray()
             res.send(results)
             // console.log(results);
         })
@@ -114,13 +114,13 @@ async function server() {
             const id = req.params.id
             const query = { _id: ObjectId(id) }
             const updateTextArea = req.body;
-            const options = {upsert: true}
-            const updateDoc = { $set: {textarea:  updateTextArea.text } }
+            const options = { upsert: true }
+            const updateDoc = { $set: { textarea: updateTextArea.text } }
             const result = await reviewCollection.updateOne(query, updateDoc, options)
             res.send(result)
         })
 
-        app.delete('/deleteReview/:id', async (req, res)=>{
+        app.delete('/deleteReview/:id', async (req, res) => {
             const id = req.params.id;
             console.log(id);
             const query = { _id: ObjectId(id) }
@@ -129,7 +129,15 @@ async function server() {
             console.log(result)
         })
 
- 
+        app.get('/review/:id', async (req, res) => {
+            const id = req.query.id;
+            const query = { service_id: id }
+            const cursor = reviewCollection.find(query)
+            const results = await cursor.toArray()
+            res.send(results)
+        })
+
+
     } finally { }
 }
 server().catch(err => console.error(err))
